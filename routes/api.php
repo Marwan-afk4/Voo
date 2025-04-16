@@ -12,6 +12,8 @@ Route::post('/register', [AuthenticationController::class, 'register']);
 Route::post('/login', [AuthenticationController::class, 'login']);
 Route::post('/verify-email', [AuthenticationController::class, 'verifyEmail']);
 Route::post('/forget-password', [AuthenticationController::class, 'forgetPassword']);
+Route::get('/user/cityCountryList', [UserLocationController::class, 'GetCity']);
+
 
 
     Route::middleware((['auth:sanctum','IsAdmin']))->group(function () {
@@ -47,6 +49,5 @@ Route::post('/forget-password', [AuthenticationController::class, 'forgetPasswor
 
         Route::post('/logout', [AuthenticationController::class, 'logout']);
 
-        Route::get('/user/cityCountryList', [UserLocationController::class, 'GetCity']);
 
     });
