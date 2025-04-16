@@ -12,6 +12,14 @@ class Country extends Model
         'flag'
     ];
 
+    protected $appends = [
+        'flag_link'
+    ];
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
     public function getFlagLinkAttribute()
     {
         if(isset($this->attributes['flag'])){

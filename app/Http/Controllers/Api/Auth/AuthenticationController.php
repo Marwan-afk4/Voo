@@ -45,7 +45,7 @@ class AuthenticationController extends Controller
             'bithdate' => $request->bithdate,
             'gender' => $request->gender,
             'role' => 'user',
-            'avatar_image' => $this->storeBase64Image($request->avatar_image, 'users/avatarImages'),
+            'avatar_image' => $this->storeBase64Image($request->avatar_image, 'users/avatarImages')?? null,
             'email_verification_code' => $code,
             'is_email_verified' => false,
         ]);
