@@ -12,6 +12,9 @@ class LocationController extends Controller
 
 
     public function GetCity(){
+
+        $countries = Country::all();
+
         $cities = City::with('country')->get();
         $data = $cities->map(function ($city) {
             return [
@@ -21,14 +24,13 @@ class LocationController extends Controller
                 'country_name' => $city->country->name,
             ];
         });
-        return response()->json(['cities'=>$data],200);
+
+        return response()->json([
+            'countries' => $countries,
+            'cities' => $data,
+        ]);
+    }
     }
 
-    public function GetCountry(){
-        $countries = Country::all();
-        $data =[
-            'countries' => $countries,
-        ];
-        return response()->json($data,200);
-    }
-}
+
+

@@ -47,8 +47,6 @@ Route::post('/forget-password', [AuthenticationController::class, 'forgetPasswor
 
         Route::post('/logout', [AuthenticationController::class, 'logout']);
 
-        Route::get('/user/cityList', [UserLocationController::class, 'GetCity']);
-
-        Route::get('/user/countryList', [LocationController::class, 'GetCountry']);
+        Route::get('/user/cityCountryList', [UserLocationController::class, 'GetCity']);
 
     });
