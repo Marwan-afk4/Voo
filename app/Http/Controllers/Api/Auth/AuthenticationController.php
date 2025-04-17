@@ -59,8 +59,7 @@ class AuthenticationController extends Controller
             return response()->json([
                 'message' => 'Go and check your email to verify your account',
             ]);
-        } else {
-            // Already verified
+        } elseif ($userExists->is_email_verified === true) {
             return response()->json([
                 'message' => 'This email is already registered',
             ], 409);
