@@ -62,9 +62,9 @@ class AuthenticationController extends Controller
         return response()->json([
             'message' => 'This email is already registered',
         ]);
-    }elseif($userExists === null){
+    }elseif(!$userExists){
 
-        $user = User::create([
+        $usercreation = User::create([
             'country_id' => $request->country_id,
             'city_id' => $request->city_id,
             'name' => $request->name,
@@ -79,7 +79,7 @@ class AuthenticationController extends Controller
             'account_status' => 'inactive',
         ]);
 
-        Mail::to($user->email)->send(new EmailVerificationCode($code, $user->name));
+        Mail::to($usercreation->email)->send(new EmailVerificationCode($code, $usercreation->name));
 
         return response()->json([
             'message' => 'Go and check your email to verify your account',
