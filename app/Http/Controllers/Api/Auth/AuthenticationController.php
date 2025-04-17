@@ -45,7 +45,7 @@ class AuthenticationController extends Controller
                     'country_id' => $request->country_id,
                     'city_id' => $request->city_id,
                     'name' => $request->name,
-                    'phone' => $request->phone,
+                    'phone' => $userExists->phone,
                     'password' => Hash::make($request->password),
                     'bithdate' => $request->bithdate,
                     'gender' => $request->gender,
