@@ -34,23 +34,28 @@ class AuthenticationController extends Controller
         return response()->json($validation->errors(), 422);
     }
 
-    $code = rand(100000, 999999); // Email verification code
-    $userExists = User::where('email', $request->email)->first();
+    // Check for existing user by email or phone
+    $userExists = User::where('email', $request->email)
+                      ->orWhere('phone', $request->phone)
+                      ->first();
 
-    // If user already exists
+    $code = rand(100000, 999999); // Email verification code
+
+    // If user exists and is not verified, update the record
     if ($userExists) {
         if ($userExists->is_email_verified === false) {
-            // Update the existing unverified user
             $userExists->update([
                 'country_id' => $request->country_id,
                 'city_id' => $request->city_id,
                 'name' => $request->name,
+                'email' => $request->email,
                 'phone' => $request->phone,
                 'password' => Hash::make($request->password),
                 'bithdate' => $request->bithdate,
                 'gender' => $request->gender,
                 'role' => 'user',
                 'email_verification_code' => $code,
+                'is_email_verified' => false,
                 'account_status' => 'inactive',
             ]);
 
@@ -59,9 +64,10 @@ class AuthenticationController extends Controller
             return response()->json([
                 'message' => 'Go and check your email to verify your account',
             ]);
-        } elseif ($userExists->is_email_verified === true) {
+        } else {
+            // Email or phone already registered and verified
             return response()->json([
-                'message' => 'This email is already registered',
+                'message' => 'This email or phone number is already registered',
             ], 409);
         }
     }
@@ -88,7 +94,6 @@ class AuthenticationController extends Controller
         'message' => 'Go and check your email to verify your account',
     ]);
 }
-
 
 
     public function verifyEmail(Request $request)
