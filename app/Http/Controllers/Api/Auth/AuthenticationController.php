@@ -22,20 +22,23 @@ class AuthenticationController extends Controller
             'country_id' => 'required|exists:countries,id',
             'city_id' => 'required|exists:cities,id',
             'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'phone' => 'required|unique:users',
+            'email' => 'required|email',
+            'phone' => 'required',
             'password' => 'required|min:8',
             'bithdate' => 'nullable|date',
             'gender' => 'required|in:male,female',
-            'avatar_image' => 'nullable'
         ]);
 
         if ($validation->fails()) {
             return response()->json($validation->errors(), 422);
         }
+        $userExists = User::where('email', $request->email)
+            ->first();
+
         $code = rand(100000, 999999);
 
-        $userCreation = User::create([
+        if ($userExists) {
+            $userExists->update([
             'country_id' => $request->country_id,
             'city_id' => $request->city_id,
             'name' => $request->name,
@@ -45,16 +48,66 @@ class AuthenticationController extends Controller
             'bithdate' => $request->bithdate,
             'gender' => $request->gender,
             'role' => 'user',
-            'avatar_image' => $this->storeBase64Image($request->avatar_image, 'users/avatarImages')?? null,
             'email_verification_code' => $code,
             'is_email_verified' => false,
-        ]);
-        $token = $userCreation->createToken('auth_token')->plainTextToken;
+            'account_status' => 'inactive',
+            ]);
 
-        Mail::to($userCreation->email)->send(new EmailVerificationCode($code, $userCreation->name));
+        Mail::to($userExists->email)->send(new EmailVerificationCode($code, $userExists->name));
         return response()->json([
-            'message' => 'User successfully registered',
-            'user' => $userCreation,
+            'message' => 'Go and check your email to verify your account',
+        ]);
+    }
+
+        $user = User::create([
+            'country_id' => $request->country_id,
+            'city_id' => $request->city_id,
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'password' => Hash::make($request->password),
+            'bithdate' => $request->bithdate,
+            'gender' => $request->gender,
+            'role' => 'user',
+            'email_verification_code' => $code,
+            'is_email_verified' => false,
+            'account_status' => 'inactive',
+        ]);
+
+        Mail::to($user->email)->send(new EmailVerificationCode($code, $user->name));
+
+        return response()->json([
+            'message' => 'Go and check your email to verify your account',
+        ]);
+    }
+
+
+    public function verifyEmail(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'email' => 'required|email|exists:users,email',
+            'code' => 'required'
+        ]);
+
+        if ($validation->fails()) {
+            return response()->json($validation->errors(), 422);
+        }
+
+        $user = User::where('email', $request->email)->first();
+        
+        if ($user->email_verification_code !== $request->code) {
+            return response()->json(['error' => 'Invalid verification code.'], 400);
+        }
+
+        $user->update([
+            'is_email_verified' => true,
+            'email_verification_code' => null,
+        ]);
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+
+        return response()->json(['message' => 'Email verified successfully.',
+            'user' => $user,
             'token' => $token,
         ]);
     }
@@ -89,30 +142,9 @@ class AuthenticationController extends Controller
         ]);
     }
 
-    public function verifyEmail(Request $request)
-    {
-        $validation = Validator::make($request->all(), [
-            'email' => 'required|email|exists:users,email',
-            'code' => 'required'
-        ]);
 
-        if ($validation->fails()) {
-            return response()->json($validation->errors(), 422);
-        }
 
-        $user = User::where('email', $request->email)->first();
 
-        if ($user->email_verification_code !== $request->code) {
-            return response()->json(['error' => 'Invalid verification code.'], 400);
-        }
-
-        $user->update([
-            'is_email_verified' => true,
-            'email_verification_code' => null,
-        ]);
-
-        return response()->json(['message' => 'Email verified successfully.']);
-    }
 
     public function forgetPassword(Request $request)
     {

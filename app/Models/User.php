@@ -23,7 +23,8 @@ class User extends Model
         'avatar_image',
         'orgnization',
         'is_email_verified',
-        'email_verification_code'
+        'email_verification_code',
+        'account_status'
     ];
 
     protected $hidden = [
