@@ -185,6 +185,31 @@ class AuthenticationController extends Controller
         ]);
     }
 
+    public function resetPassword(Request $request)
+    {
+        $validated = Validator::make($request->all(), [
+            'email'=>'required|email|exists:users,email',
+            'password' => 'required|min:8',
+        ]);
+
+        if ($validated->fails()) {
+            return response()->json(['errors' => $validated->errors()], 422);
+        }
+        $user = User::where('email', $request->email)->first();
+
+        // if ($user->email_verification_code !== $request->code) {
+        //     return response()->json(['error' => 'Invalid verification code.'], 400);
+        // }
+        $user->update([
+            'password' => Hash::make($request->password),
+            'email_verification_code' => null,
+            'is_email_verified' => true,
+        ]);
+        return response()->json([
+            'message' => 'Password reset successfully.',
+        ]);
+    }
+
 
     public function userProfile(Request $request)
     {
