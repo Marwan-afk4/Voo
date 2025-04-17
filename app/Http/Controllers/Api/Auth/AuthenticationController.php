@@ -17,78 +17,78 @@ class AuthenticationController extends Controller
     use Image;
 
     public function register(Request $request)
-    {
-        // Validate input
-        $validation = Validator::make($request->all(), [
-            'country_id' => 'required|exists:countries,id',
-            'city_id' => 'required|exists:cities,id',
-            'name' => 'required|string',
-            'email' => 'required|email',
-            'phone' => 'required|unique:users,phone',
-            'password' => 'required|min:8',
-            'bithdate' => 'nullable|date',
-            'gender' => 'required|in:male,female',
-        ]);
+{
+    // Validate input
+    $validation = Validator::make($request->all(), [
+        'country_id' => 'required|exists:countries,id',
+        'city_id' => 'required|exists:cities,id',
+        'name' => 'required|string',
+        'email' => 'required|email',
+        'phone' => 'required|unique:users,phone',
+        'password' => 'required|min:8',
+        'bithdate' => 'nullable|date',
+        'gender' => 'required|in:male,female',
+    ]);
 
-        if ($validation->fails()) {
-            return response()->json($validation->errors(), 422);
-        }
-
-        $code = rand(100000, 999999); // Email verification code
-        $userExists = User::where('email', $request->email)->first();
-
-        // If user already exists
-        if ($userExists) {
-            if ($userExists->is_email_verified === false) {
-                // Update the existing unverified user
-                $userExists->update([
-                    'country_id' => $request->country_id,
-                    'city_id' => $request->city_id,
-                    'name' => $request->name,
-                    'phone' => $userExists->phone,
-                    'password' => Hash::make($request->password),
-                    'bithdate' => $request->bithdate,
-                    'gender' => $request->gender,
-                    'role' => 'user',
-                    'email_verification_code' => $code,
-                    'account_status' => 'inactive',
-                ]);
-
-                Mail::to($userExists->email)->send(new EmailVerificationCode($code, $userExists->name));
-
-                return response()->json([
-                    'message' => 'Go and check your email to verify your account',
-                ]);
-            } else {
-                // Already verified
-                return response()->json([
-                    'message' => 'This email is already registered',
-                ], 409);
-            }
-        }
-
-        // Create new user
-        $user = User::create([
-            'country_id' => $request->country_id,
-            'city_id' => $request->city_id,
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'password' => Hash::make($request->password),
-            'bithdate' => $request->bithdate,
-            'gender' => $request->gender,
-            'role' => 'user',
-            'email_verification_code' => $code,
-            'is_email_verified' => false,
-            'account_status' => 'inactive',
-        ]);
-
-        Mail::to($user->email)->send(new EmailVerificationCode($code, $user->name));
-
-        return response()->json([
-            'message' => 'Go and check your email to verify your account',
-        ]);
+    if ($validation->fails()) {
+        return response()->json($validation->errors(), 422);
     }
+
+    $code = rand(100000, 999999); // Email verification code
+    $userExists = User::where('email', $request->email)->first();
+
+    // If user already exists
+    if ($userExists) {
+        if ($userExists->is_email_verified === false) {
+            // Update the existing unverified user
+            $userExists->update([
+                'country_id' => $request->country_id,
+                'city_id' => $request->city_id,
+                'name' => $request->name,
+                'phone' => $request->phone,
+                'password' => Hash::make($request->password),
+                'bithdate' => $request->bithdate,
+                'gender' => $request->gender,
+                'role' => 'user',
+                'email_verification_code' => $code,
+                'account_status' => 'inactive',
+            ]);
+
+            Mail::to($userExists->email)->send(new EmailVerificationCode($code, $userExists->name));
+
+            return response()->json([
+                'message' => 'Go and check your email to verify your account',
+            ]);
+        } else {
+            // Already verified
+            return response()->json([
+                'message' => 'This email is already registered',
+            ], 409);
+        }
+    }
+
+    // Create new user
+    $user = User::create([
+        'country_id' => $request->country_id,
+        'city_id' => $request->city_id,
+        'name' => $request->name,
+        'email' => $request->email,
+        'phone' => $request->phone,
+        'password' => Hash::make($request->password),
+        'bithdate' => $request->bithdate,
+        'gender' => $request->gender,
+        'role' => 'user',
+        'email_verification_code' => $code,
+        'is_email_verified' => false,
+        'account_status' => 'inactive',
+    ]);
+
+    Mail::to($user->email)->send(new EmailVerificationCode($code, $user->name));
+
+    return response()->json([
+        'message' => 'Go and check your email to verify your account',
+    ]);
+}
 
 
 
@@ -116,8 +116,7 @@ class AuthenticationController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
 
 
-        return response()->json([
-            'message' => 'Email verified successfully.',
+        return response()->json(['message' => 'Email verified successfully.',
             'user' => $user,
             'token' => $token,
         ]);
