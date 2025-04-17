@@ -24,7 +24,7 @@ class AuthenticationController extends Controller
         'city_id' => 'required|exists:cities,id',
         'name' => 'required|string',
         'email' => 'required|email',
-        'phone' => 'required|unique:users,phone',
+        'phone' => 'required',
         'password' => 'required|min:8',
         'bithdate' => 'nullable|date',
         'gender' => 'required|in:male,female',
