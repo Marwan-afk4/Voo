@@ -213,7 +213,10 @@ class AuthenticationController extends Controller
 
     public function userProfile(Request $request)
     {
-        $user = $request->user();
+        $user = $request->user()->with([
+            'country:id,name',
+            'city:id,name,country_id',
+        ])->find($request->user()->id);
         return response()->json([
             'message' => 'User profile retrieved successfully',
             'user' => $user,

@@ -25,6 +25,15 @@ class Event extends Model
         'status'
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
+    protected $appends = [
+        'image_link',
+    ];
+
     public function getImageLinkAttribute(){
         if(isset($this->attributes['image'])){
             return asset('storage/'.$this->attributes['image']);
