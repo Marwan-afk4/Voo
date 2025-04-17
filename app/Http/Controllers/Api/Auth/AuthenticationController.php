@@ -62,7 +62,7 @@ class AuthenticationController extends Controller
         return response()->json([
             'message' => 'This email is already registered',
         ]);
-    }else{
+    }elseif($userExists === null){
 
         $user = User::create([
             'country_id' => $request->country_id,
