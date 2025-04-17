@@ -37,8 +37,38 @@ class AuthenticationController extends Controller
 
         $code = rand(100000, 999999);
 
-        if ($userExists->is_email_verified === false) {
-            $userExists->update([
+        $userExists = User::where('email', $request->email)->first();
+        $code = rand(100000, 999999);
+
+        if ($userExists) {
+            if ($userExists->is_email_verified === false) {
+                $userExists->update([
+                    'country_id' => $request->country_id,
+                    'city_id' => $request->city_id,
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'phone' => $request->phone,
+                    'password' => Hash::make($request->password),
+                    'bithdate' => $request->bithdate,
+                    'gender' => $request->gender,
+                    'role' => 'user',
+                    'email_verification_code' => $code,
+                    'is_email_verified' => false,
+                    'account_status' => 'inactive',
+                ]);
+
+                Mail::to($userExists->email)->send(new EmailVerificationCode($code, $userExists->name));
+                return response()->json([
+                    'message' => 'Go and check your email to verify your account',
+                ]);
+            } elseif ($userExists->is_email_verified === true) {
+                return response()->json([
+                    'message' => 'This email is already registered',
+                ]);
+            }
+        }
+
+        $user = User::create([
             'country_id' => $request->country_id,
             'city_id' => $request->city_id,
             'name' => $request->name,
@@ -51,40 +81,13 @@ class AuthenticationController extends Controller
             'email_verification_code' => $code,
             'is_email_verified' => false,
             'account_status' => 'inactive',
-            ]);
-
-        Mail::to($userExists->email)->send(new EmailVerificationCode($code, $userExists->name));
-        return response()->json([
-            'message' => 'Go and check your email to verify your account',
-        ]);
-    }
-    elseif($userExists->is_email_verified === true){
-        return response()->json([
-            'message' => 'This email is already registered',
-        ]);
-    }elseif(!$userExists){
-
-        $usercreation = User::create([
-            'country_id' => $request->country_id,
-            'city_id' => $request->city_id,
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'password' => Hash::make($request->password),
-            'bithdate' => $request->bithdate,
-            'gender' => $request->gender,
-            'role' => 'user',
-            'email_verification_code' => $code,
-            'is_email_verified' => false,
-            'account_status' => 'inactive',
         ]);
 
-        Mail::to($usercreation->email)->send(new EmailVerificationCode($code, $usercreation->name));
+        Mail::to($user->email)->send(new EmailVerificationCode($code, $user->name));
 
         return response()->json([
             'message' => 'Go and check your email to verify your account',
         ]);
-    }
     }
 
 
@@ -112,7 +115,8 @@ class AuthenticationController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
 
 
-        return response()->json(['message' => 'Email verified successfully.',
+        return response()->json([
+            'message' => 'Email verified successfully.',
             'user' => $user,
             'token' => $token,
         ]);
