@@ -114,6 +114,7 @@ class AuthenticationController extends Controller
         $user->update([
             'is_email_verified' => true,
             'email_verification_code' => null,
+            'account_status' => 'active',
         ]);
         $token = $user->createToken('auth_token')->plainTextToken;
 
