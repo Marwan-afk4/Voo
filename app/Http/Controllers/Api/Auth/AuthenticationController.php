@@ -37,7 +37,7 @@ class AuthenticationController extends Controller
 
         $code = rand(100000, 999999);
 
-        if ($userExists->is_email_verified == false) {
+        if ($userExists->is_email_verified === false) {
             $userExists->update([
             'country_id' => $request->country_id,
             'city_id' => $request->city_id,
@@ -58,7 +58,7 @@ class AuthenticationController extends Controller
             'message' => 'Go and check your email to verify your account',
         ]);
     }
-    elseif($userExists->is_email_verified == true){
+    elseif($userExists->is_email_verified === true){
         return response()->json([
             'message' => 'This email is already registered',
         ]);
