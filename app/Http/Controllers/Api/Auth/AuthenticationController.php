@@ -37,7 +37,7 @@ class AuthenticationController extends Controller
 
         $code = rand(100000, 999999);
 
-        if ($userExists) {
+        if ($userExists->is_email_verified == false) {
             $userExists->update([
             'country_id' => $request->country_id,
             'city_id' => $request->city_id,
@@ -58,6 +58,11 @@ class AuthenticationController extends Controller
             'message' => 'Go and check your email to verify your account',
         ]);
     }
+    elseif($userExists->is_email_verified == true){
+        return response()->json([
+            'message' => 'This email is already registered',
+        ]);
+    }else{
 
         $user = User::create([
             'country_id' => $request->country_id,
@@ -80,6 +85,7 @@ class AuthenticationController extends Controller
             'message' => 'Go and check your email to verify your account',
         ]);
     }
+    }
 
 
     public function verifyEmail(Request $request)
@@ -94,7 +100,7 @@ class AuthenticationController extends Controller
         }
 
         $user = User::where('email', $request->email)->first();
-        
+
         if ($user->email_verification_code !== $request->code) {
             return response()->json(['error' => 'Invalid verification code.'], 400);
         }
