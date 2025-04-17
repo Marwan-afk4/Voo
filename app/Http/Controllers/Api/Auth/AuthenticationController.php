@@ -43,7 +43,7 @@ class AuthenticationController extends Controller
 
     // If user exists and is not verified, update the record
     if ($userExists) {
-        if ($userExists->is_email_verified === false) {
+        if ($userExists->is_email_verified == false) {
             $userExists->update([
                 'country_id' => $request->country_id,
                 'city_id' => $request->city_id,
@@ -64,15 +64,13 @@ class AuthenticationController extends Controller
             return response()->json([
                 'message' => 'Go and check your email to verify your account',
             ]);
-        } else {
-            // Email or phone already registered and verified
+        } elseif($userExists->is_email_verified == true) {
             return response()->json([
                 'message' => 'This email or phone number is already registered',
             ], 409);
         }
     }
 
-    // Create new user
     $user = User::create([
         'country_id' => $request->country_id,
         'city_id' => $request->city_id,
