@@ -29,9 +29,9 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
 
         Route::post('/admin/country/add', [LocationController::class, 'addCountry']);
 
-        Route::post('/admin/country/update', [LocationController::class, 'UpdateCountry']);
+        Route::put('/admin/country/update/{id}', [LocationController::class, 'UpdateCountry']);
 
-        Route::post('/admin/country/delete', [LocationController::class, 'DeleteCountry']);
+        Route::delete('/admin/country/delete/{id}', [LocationController::class, 'DeleteCountry']);
 
 //////////////////////////////////////////////////// Cities //////////////////////////////////////////////////
 
@@ -39,9 +39,19 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
 
         Route::post('/admin/city/add', [LocationController::class, 'addCity']);
 
-        Route::post('/admin/city/update', [LocationController::class, 'UpdateCity']);
+        Route::put('/admin/city/update/{id}', [LocationController::class, 'UpdateCity']);
 
-        Route::post('/admin/city/delete', [LocationController::class, 'DeleteCity']);
+        Route::delete('/admin/city/delete/{id}', [LocationController::class, 'DeleteCity']);
+
+//////////////////////////////////////////////////// Zones //////////////////////////////////////////////////
+
+        Route::get('/admin/zone', [LocationController::class, 'GetZones']);
+
+        Route::post('/admin/zone/add', [LocationController::class, 'addZone']);
+
+        Route::put('/admin/zone/update/{id}', [LocationController::class, 'UpdateZone']);
+
+        Route::delete('/admin/zone/delete/{id}', [LocationController::class, 'DeleteZone']);
 
 /////////////////////////////////////////////////// Users ////////////////////////////////////////////////////
 
@@ -51,9 +61,9 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
 
         Route::post('/admin/user/add', [UserController::class, 'addUser']);
 
-        Route::post('/admin/user/update/{id}', [UserController::class, 'updateUser']);
+        Route::put('/admin/user/update/{id}', [UserController::class, 'updateUser']);
 
-        Route::post('/admin/user/delete/{id}', [UserController::class, 'deleteUser']);
+        Route::delete('/admin/user/delete/{id}', [UserController::class, 'deleteUser']);
 
 //////////////////////////////////////////////// Orgnization //////////////////////////////////////////////////
 
@@ -63,9 +73,9 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
 
         Route::post('/admin/organization/add', [OrgnizationController::class, 'addOrgnization']);
 
-        Route::post('/admin/organization/update/{id}', [OrgnizationController::class, 'updateOrgnization']);
+        Route::put('/admin/organization/update/{id}', [OrgnizationController::class, 'updateOrgnization']);
 
-        Route::post('/admin/organization/delete/{id}', [OrgnizationController::class, 'deleteOrgnization']);
+        Route::delete('/admin/organization/delete/{id}', [OrgnizationController::class, 'deleteOrgnization']);
 
 
 ////////////////////////////////////////////////// Events ////////////////////////////////////////////////////

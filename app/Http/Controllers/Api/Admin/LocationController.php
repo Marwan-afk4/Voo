@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Image;
 use App\Models\City;
 use App\Models\Country;
+use App\Models\Zone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -139,6 +140,76 @@ class LocationController extends Controller
         if($city){
             return response()->json([
                 'message' => 'City Deleted Successfully',
+            ],200);
+        }
+    }
+
+    public function GetZones(){
+        $zones = Zone::with(['city:id,name,country_id','country:id,name'])->get();
+        $data = [
+            'zones' => $zones->map(function ($zone) {
+                return [
+                    'id' => $zone->id,
+                    'name' => $zone->name,
+                    'city_id' => $zone->city_id,
+                    'country_id' => $zone->country_id,
+                    'city_name' => $zone->city->name,
+                    'country_name' => $zone->country->name,
+                ];
+            }),
+        ];
+        return response()->json([$data],200);
+    }
+
+    public function addZone(Request $request){
+        $Validation = Validator::make($request->all(),[
+            'name' => 'required|unique:zones,name',
+            'city_id' => 'required|exists:cities,id',
+            'country_id' => 'required|exists:countries,id',
+        ]);
+        if($Validation->fails()){
+            return response()->json($Validation->errors(),422);
+        }
+        $zone = Zone::create([
+            'name' => $request->name,
+            'city_id' => $request->city_id,
+            'country_id' => $request->country_id,
+        ]);
+        if($zone){
+            return response()->json([
+                'message' => 'Zone Created Successfully',
+            ],200);
+        }
+    }
+
+    public function UpdateZone(Request $request,$id){
+        $Validation = Validator::make($request->all(),[
+            'name' => 'nullable|unique:zones,name,'.$id,
+            'city_id' => 'nullable|exists:cities,id',
+            'country_id' => 'nullable|exists:countries,id',
+        ]);
+        if($Validation->fails()){
+            return response()->json($Validation->errors(),422);
+        }
+        $zone = Zone::findOrFail($id);
+        $zone->update([
+            'name' => $request->name?? $zone->name,
+            'city_id' => $request->city_id?? $zone->city_id,
+            'country_id' => $request->country_id?? $zone->country_id,
+        ]);
+        if($zone){
+            return response()->json([
+                'message' => 'Zone Updated Successfully',
+            ],200);
+        }
+    }
+
+    public function DeleteZone($id){
+        $zone = Zone::find($id);
+        $zone->delete();
+        if($zone){
+            return response()->json([
+                'message' => 'Zone Deleted Successfully',
             ],200);
         }
     }
