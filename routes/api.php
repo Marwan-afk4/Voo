@@ -82,6 +82,14 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
 
         Route::get('/admin/event', [EventController::class, 'getEvents']);
 
+        Route::get('/admin/event/{id}', [EventController::class, 'getEventById']);
+
+        Route::post('/admin/event/add', [EventController::class, 'addEvent']);
+
+        Route::put('/admin/event/update/{id}', [EventController::class, 'updateEvent']);
+
+        Route::delete('/admin/event/delete/{eventId}', [EventController::class, 'deleteEvent']);
+
 
     });
 

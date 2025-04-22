@@ -9,6 +9,7 @@ class Event extends Model
 
 
     protected $fillable =[
+        'orgnization_id',
         'country_id',
         'city_id',
         'zone_id',
@@ -18,6 +19,7 @@ class Event extends Model
         'end_time',
         'number_of_volunteers',
         'available_volunteers',
+        'number_of_organizers',
         'location',
         'google_maps_location',
         'description',
