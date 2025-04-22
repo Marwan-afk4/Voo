@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Admin\EventController;
 use App\Http\Controllers\Api\Admin\LocationController;
 use App\Http\Controllers\Api\Admin\OrgnizationController;
+use App\Http\Controllers\Api\Admin\TaskController;
 use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\Auth\AuthenticationController;
 use App\Http\Controllers\Api\User\LocationController as UserLocationController;
@@ -92,15 +93,15 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
 
 /////////////////////////////////////////////////// Tasks ////////////////////////////////////////////////////////
 
-        Route::get('/admin/task', [EventController::class, 'getTasks']);
+        Route::get('/admin/task', [TaskController::class, 'getTasks']);
 
-        Route::get('/admin/task/{id}', [EventController::class, 'getTaskById']);
+        Route::get('/admin/task/{id}', [TaskController::class, 'getTaskById']);
 
-        Route::post('/admin/task/add', [EventController::class, 'addTask']);
+        Route::post('/admin/task/add', [TaskController::class, 'addTask']);
 
-        Route::put('/admin/task/update/{id}', [EventController::class, 'updateTask']);
+        Route::put('/admin/task/update/{id}', [TaskController::class, 'updateTask']);
 
-        Route::delete('/admin/task/delete/{taskId}', [EventController::class, 'deleteTask']);
+        Route::delete('/admin/task/delete/{taskId}', [TaskController::class, 'deleteTask']);
 
 
     });

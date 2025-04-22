@@ -13,7 +13,7 @@ class OrgnizationController extends Controller
 
 
     public function getOrgnization(){
-        $orgnization = User::where('role', 'orgnization')
+        $orgnization = User::where('role', 'organization')
         ->with(['country:name,id', 'city:name,id',])->get();
         $data =[
             'orgnization' => $orgnization,
