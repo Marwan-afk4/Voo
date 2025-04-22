@@ -101,7 +101,7 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
 
         Route::put('/admin/task/update/{id}', [TaskController::class, 'updateTask']);
 
-        Route::delete('/admin/task/delete/{taskId}', [TaskController::class, 'deleteTask']);
+        Route::delete('/admin/task/delete/{id}', [TaskController::class, 'deleteTask']);
 
 
     });
