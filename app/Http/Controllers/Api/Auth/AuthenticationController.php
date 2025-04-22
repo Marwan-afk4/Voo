@@ -222,6 +222,42 @@ class AuthenticationController extends Controller
             'user' => $user,
         ]);
     }
+
+    public function editUserProfile(Request $request){
+        $user = $request->user();
+        $validation = Validator::make($request->all(), [
+            'country_id' => 'nullable|exists:countries,id',
+            'city_id' => 'nullable|exists:cities,id',
+            'name' => 'nullable|string',
+            'email' => 'nullable|email',
+            'phone' => 'nullable',
+            'password' => 'nullable|min:8',
+            'bithdate' => 'nullable|date',
+            'gender' => 'nullable|in:male,female',
+        ]);
+
+        if ($validation->fails()) {
+            return response()->json($validation->errors(), 422);
+        }
+        
+        $user->update([
+            'country_id' => $request->country_id?? $user->country_id,
+            'city_id' => $request->city_id?? $user->city_id,
+            'name' => $request->name?? $user->name,
+            'email' => $request->email?? $user->email,
+            'phone' => $request->phone?? $user->phone,
+            'birth' => $request->bithdate?? $user->bithdate,
+            'gender' => $request->gender?? $user->gender,
+            'password' => $request->password ? Hash::make($request->password) : $user->password,
+            'image' => $request->image ? $this->storeBase64Image($request->image, 'users/image') : $user->image,
+        ]);
+        return response()->json([
+            'message' => 'User profile updated successfully',
+            'user' => $user,
+        ]);
+    }
+
+
     public function logout(Request $request)
     {
         $user = $request->user();

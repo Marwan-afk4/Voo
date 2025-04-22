@@ -115,6 +115,8 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
 
         Route::get('/user/profile', [AuthenticationController::class, 'userProfile']);
 
+        Route::put('/user/profile/update', [AuthenticationController::class, 'editUserProfile']);
+
         Route::post('/logout', [AuthenticationController::class, 'logout']);
 
 
