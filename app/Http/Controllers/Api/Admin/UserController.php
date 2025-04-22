@@ -86,7 +86,7 @@ class UserController extends Controller
             'name' => $request->name?? $user->name,
             'email' => $request->email?? $user->email,
             'phone' => $request->phone?? $user->phone,
-            'bithdate' => $request->bithdate?? $user->bith,
+            'birth' => $request->bithdate?? $user->bith,
             'gender' => $request->gender?? $user->gender,
         ]);
 
