@@ -90,6 +90,18 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
 
         Route::delete('/admin/event/delete/{eventId}', [EventController::class, 'deleteEvent']);
 
+/////////////////////////////////////////////////// Tasks ////////////////////////////////////////////////////////
+
+        Route::get('/admin/task', [EventController::class, 'getTasks']);
+
+        Route::get('/admin/task/{id}', [EventController::class, 'getTaskById']);
+
+        Route::post('/admin/task/add', [EventController::class, 'addTask']);
+
+        Route::put('/admin/task/update/{id}', [EventController::class, 'updateTask']);
+
+        Route::delete('/admin/task/delete/{taskId}', [EventController::class, 'deleteTask']);
+
 
     });
 

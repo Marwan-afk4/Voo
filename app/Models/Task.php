@@ -16,7 +16,8 @@ class Task extends Model
         'start_time',
         'number_of_voo_needed',
         'description',
-        'status'
+        'status',
+        'image'
     ];
 
     public function from_zone()
