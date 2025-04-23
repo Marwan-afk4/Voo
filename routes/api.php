@@ -136,9 +136,7 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
 
         Route::get('/user/eventsAndTasks', [HomePageController::class, 'getEventsAndTaks']);
 
-        Route::get('/user/historyAttend', [HistoryController::class, 'getHistoryAttend']);
-
-        Route::get('/user/historyLost', [HistoryController::class, 'getHistoryLost']);
+        Route::get('/user/historyRequests',[HistoryController::class,'getHistoryAttend']);
 
 
     });

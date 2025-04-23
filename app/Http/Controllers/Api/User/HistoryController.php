@@ -13,22 +13,39 @@ class HistoryController extends Controller
     public function getHistoryAttend(){
         $user = request()->user();
         $userId = $user->id;
-        $historyAttend = ModelsRequest::where('user_id', $userId)
-            ->where('status', 'attend')
-            ->with(['user:id,name,email',
+        $historytask = ModelsRequest::where('user_id', $userId)
+        ->where('request_type', 'task')
+            ->with([
+            'user:id,name,email',
             'task',
-            'event.city',
-            'event.country',
-            'event.zone',
-            'event.event_benfits',
-            'event.event_requirments',
+            // 'event.city',
+            // 'event.country',
+            // 'event.zone',
+            // 'event.event_benfits',
+            // 'event.event_requirments',
             'task.from_zone:id,name,city_id,country_id',
             'task.to_zone:id,name,city_id,country_id',
             'orgnization:id,name'
             ])
             ->get();
 
-        return response()->json(['historyAttend' => $historyAttend], 200);
+        $historyevent = ModelsRequest::where('user_id',$userId)
+        ->where('request_type','event')
+        ->with([
+            'user:id,name,email',
+            'event.city',
+            'event.country',
+            'event.zone',
+            'event.event_benfits',
+            'event.event_requirments',
+            'orgnization:id,name'
+        ])->get();
+
+        return response()->json([
+            'historyTask'=>$historytask,
+            'historyEvent'=>$historyevent
+        ]);
+
     }
 
     public function getHistoryLost(){
@@ -52,5 +69,5 @@ class HistoryController extends Controller
         return response()->json(['historyLost' => $historyLost], 200);
     }
 
-    
+
 }
