@@ -15,6 +15,11 @@ class EventVolunteer extends Model
         'hours'
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
     public function event()
     {
         return $this->belongsTo(Event::class);
@@ -25,5 +30,5 @@ class EventVolunteer extends Model
         return $this->belongsTo(User::class);
     }
 
-    
+
 }

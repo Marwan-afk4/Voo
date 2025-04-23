@@ -14,6 +14,11 @@ class EventRequirment extends Model
         'status',
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
     public function event()
     {
         return $this->belongsTo(Event::class);

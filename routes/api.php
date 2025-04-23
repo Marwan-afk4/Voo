@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Admin\OrgnizationController;
 use App\Http\Controllers\Api\Admin\TaskController;
 use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\Auth\AuthenticationController;
+use App\Http\Controllers\Api\User\HistoryController;
 use App\Http\Controllers\Api\User\HomePageController;
 use App\Http\Controllers\Api\User\LocationController as UserLocationController;
 use Illuminate\Http\Request;
@@ -134,6 +135,10 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
         Route::post('/logout', [AuthenticationController::class, 'logout']);
 
         Route::get('/user/eventsAndTasks', [HomePageController::class, 'getEventsAndTaks']);
+
+        Route::get('/user/historyAttend', [HistoryController::class, 'getHistoryAttend']);
+
+        Route::get('/user/historyLost', [HistoryController::class, 'getHistoryLost']);
 
 
     });

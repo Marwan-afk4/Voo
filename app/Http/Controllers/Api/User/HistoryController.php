@@ -1,0 +1,56 @@
+<?php
+
+namespace App\Http\Controllers\Api\User;
+
+use App\Http\Controllers\Controller;
+use App\Models\Request as ModelsRequest;
+use Illuminate\Http\Request;
+
+class HistoryController extends Controller
+{
+
+
+    public function getHistoryAttend(){
+        $user = request()->user();
+        $userId = $user->id;
+        $historyAttend = ModelsRequest::where('user_id', $userId)
+            ->where('status', 'attend')
+            ->with(['user:id,name,email',
+            'task',
+            'event.city',
+            'event.country',
+            'event.zone',
+            'event.event_benfits',
+            'event.event_requirments',
+            'task.from_zone:id,name,city_id,country_id',
+            'task.to_zone:id,name,city_id,country_id',
+            'orgnization:id,name'
+            ])
+            ->get();
+
+        return response()->json(['historyAttend' => $historyAttend], 200);
+    }
+
+    public function getHistoryLost(){
+        $user = request()->user();
+        $userId = $user->id;
+        $historyLost = ModelsRequest::where('user_id', $userId)
+            ->where('status', 'lost')
+            ->with(['user:id,name,email',
+            'task',
+            'event.city',
+            'event.country',
+            'event.zone',
+            'event.event_benfits',
+            'event.event_requirments',
+            'task.from_zone:id,name,city_id,country_id',
+            'task.to_zone:id,name,city_id,country_id',
+            'orgnization:id,name'
+            ])
+            ->get();
+
+        return response()->json(['historyLost' => $historyLost], 200);
+    }
+
+    
+}
