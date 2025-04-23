@@ -22,8 +22,7 @@ class UserController extends Controller
     }
 
     public function getUser($id){
-        $user = User::findOrFail($id)->where('role', 'user')
-        ->with(['country:name,id', 'city:name,id', 'user_papers'])->first();
+        $user = User::with(['country:name,id', 'city:name,id', 'user_papers'])->findOrFail($id);
         $data =[
             'user' => $user,
         ];
