@@ -40,6 +40,8 @@ class HomePageController extends Controller
         $acceptedRequest = ModelsRequest::where('user_id', $user->id)->count();
         $pendingRequest = ModelsRequest::where('user_id', $user->id)->where('status', 'pending')->count();
         $rejectedRequest = ModelsRequest::where('user_id', $user->id)->where('status', 'rejected')->count();
+        $lostRequest = ModelsRequest::where('user_id', $user->id)->where('status', 'lost')->count();
+        $attendedRequest = ModelsRequest::where('user_id', $user->id)->where('status', 'attend')->count();
 
 
         return response()->json([
@@ -48,6 +50,8 @@ class HomePageController extends Controller
             'acceptedRequest' => $acceptedRequest,
             'pendingRequest' => $pendingRequest,
             'rejectedRequest' => $rejectedRequest,
+            'lostRequest' => $lostRequest,
+            'attendedRequest' => $attendedRequest,
         ])->setStatusCode(200, 'Success');
     }
 
