@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\AdminRequestController;
 use App\Http\Controllers\Api\Admin\EventController;
 use App\Http\Controllers\Api\Admin\LocationController;
 use App\Http\Controllers\Api\Admin\OrgnizationController;
 use App\Http\Controllers\Api\Admin\TaskController;
 use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\Auth\AuthenticationController;
+use App\Http\Controllers\Api\User\HomePageController;
 use App\Http\Controllers\Api\User\LocationController as UserLocationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -103,6 +105,18 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
 
         Route::delete('/admin/task/delete/{id}', [TaskController::class, 'deleteTask']);
 
+//////////////////////////////////////////////////// Requests ////////////////////////////////////////////////////////
+
+        Route::get('/admin/request', [AdminRequestController::class, 'getAllRequest']);
+
+        Route::get('/admin/request/{id}', [AdminRequestController::class, 'getRequestById']);
+
+        Route::put('/admin/request/accept/{id}', [AdminRequestController::class, 'acceptRequest']);
+
+        Route::put('/admin/request/reject/{id}', [AdminRequestController::class, 'rejectRequest']);
+
+        Route::delete('/admin/request/delete/{id}', [AdminRequestController::class, 'deleteRequest']);
+
 
     });
 
@@ -118,6 +132,8 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
         Route::put('/user/profile/update', [AuthenticationController::class, 'editUserProfile']);
 
         Route::post('/logout', [AuthenticationController::class, 'logout']);
+
+        Route::get('/user/eventsAndTasks', [HomePageController::class, 'getEventsAndTaks']);
 
 
     });
