@@ -77,4 +77,9 @@ class Event extends Model
     {
         return $this->hasMany(VooHour::class);
     }
+
+    public function orgnization()
+    {
+        return $this->belongsTo(User::class,'orgnization_id');
+    }
 }

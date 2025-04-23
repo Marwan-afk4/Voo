@@ -9,6 +9,7 @@ class UserPaper extends Model
 
 
     protected $fillable =[
+        'orgnization_id',
         'user_id',
         'front_identity',
         'back_identity',

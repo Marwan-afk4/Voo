@@ -234,12 +234,13 @@ class AuthenticationController extends Controller
             'password' => 'nullable|min:8',
             'bithdate' => 'nullable|date',
             'gender' => 'nullable|in:male,female',
+            'avatar_image'=> 'nullable'
         ]);
 
         if ($validation->fails()) {
             return response()->json($validation->errors(), 422);
         }
-        
+
         $user->update([
             'country_id' => $request->country_id?? $user->country_id,
             'city_id' => $request->city_id?? $user->city_id,
@@ -249,7 +250,7 @@ class AuthenticationController extends Controller
             'birth' => $request->bithdate?? $user->bithdate,
             'gender' => $request->gender?? $user->gender,
             'password' => $request->password ? Hash::make($request->password) : $user->password,
-            'image' => $request->image ? $this->storeBase64Image($request->image, 'users/image') : $user->image,
+            'avatar_image' => $request->avatar_image ? $this->storeBase64Image($request->avatar_image, 'users/image') : $user->avatar_image,
         ]);
         return response()->json([
             'message' => 'User profile updated successfully',

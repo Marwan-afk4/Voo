@@ -17,7 +17,8 @@ class Task extends Model
         'number_of_voo_needed',
         'description',
         'status',
-        'image'
+        'image',
+        'orgnization_id',
     ];
 
     protected $hidden = [
@@ -44,5 +45,10 @@ class Task extends Model
     public function to_zone()
     {
         return $this->belongsTo(Zone::class,'to_zone_id');
+    }
+
+    public function orgnization()
+    {
+        return $this->belongsTo(User::class,'orgnization_id');
     }
 }
