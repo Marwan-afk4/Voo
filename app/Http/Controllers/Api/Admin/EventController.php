@@ -109,87 +109,69 @@ class EventController extends Controller
 
 
     public function updateEvent(EventRequest $request, $id)
-    {
-        DB::beginTransaction();
+{
+    DB::beginTransaction();
 
-        try {
-            $event = Event::find($id);
+    try {
+        $event = Event::find($id);
 
-            if (!$event) {
-                return response()->json(['message' => 'Event not found'], 404);
-            }
-
-            $event->update([
-                'country_id' => $request->country_id ?? $event->country_id,
-                'city_id' => $request->city_id ?? $event->city_id,
-                'zone_id' => $request->zone_id ?? $event->zone_id,
-                'name' => $request->name ?? $event->name,
-                'date' => $request->date ?? $event->date,
-                'start_time' => $request->start_time ?? $event->start_time,
-                'end_time' => $request->end_time ?? $event->end_time,
-                'number_of_volunteers' => $request->number_of_volunteers ?? $event->number_of_volunteers,
-                'available_volunteers' => $request->number_of_volunteers ?? $event->available_volunteers,
-                'number_of_organizers' => $request->number_of_organizers ?? $event->number_of_organizers,
-                'location' => $request->location ?? $event->location,
-                'google_maps_location' => $request->google_maps_location ?? $event->google_maps_location,
-                'description' => $request->description ?? $event->description,
-                'image' => $request->image ? $this->storeBase64Image($request->image, 'events/images') : $event->image,
-                'status' => $request->status ?? $event->status,
-            ]);
-
-            // Update benefits
-            foreach ($request->benfit as $benefit) {
-                if (isset($benefit['id'])) {
-                    $eventBenefit = $event->event_benfits()->find($benefit['id']);
-                    if ($eventBenefit) {
-                        $eventBenefit->update([
-                            'benfit' => $benefit['benfit'] ?? $eventBenefit->benfit,
-                            'status' => $benefit['status'] ?? $eventBenefit->status,
-                        ]);
-                    }
-                } else {
-                    // Create new benefit
-                    $event->event_benfits()->create([
-                        'benfit' => $benefit['benfit'],
-                        'status' => $benefit['status'],
-                    ]);
-                }
-            }
-
-            // Update requirements
-            foreach ($request->requirment as $requirement) {
-                if (isset($requirement['id'])) {
-                    $eventRequirement = $event->event_requirments()->find($requirement['id']);
-                    if ($eventRequirement) {
-                        $eventRequirement->update([
-                            'requirment' => $requirement['requirment'] ?? $eventRequirement->requirment,
-                            'status' => $requirement['status'] ?? $eventRequirement->status,
-                        ]);
-                    }
-                } else {
-                    // Create new requirement
-                    $event->event_requirments()->create([
-                        'requirment' => $requirement['requirment'],
-                        'status' => $requirement['status'],
-                    ]);
-                }
-            }
-
-            DB::commit();
-
-            return response()->json([
-                'message' => 'Event updated successfully',
-                'data' => $event->load(['event_benfits', 'event_requirments'])
-            ], 200);
-        } catch (\Exception $e) {
-            DB::rollBack();
-
-            return response()->json([
-                'message' => 'Failed to update event',
-                'error' => $e->getMessage()
-            ], 500);
+        if (!$event) {
+            return response()->json(['message' => 'Event not found'], 404);
         }
+
+        // Update event core fields
+        $event->update([
+            'country_id' => $request->country_id ?? $event->country_id,
+            'city_id' => $request->city_id ?? $event->city_id,
+            'zone_id' => $request->zone_id ?? $event->zone_id,
+            'name' => $request->name ?? $event->name,
+            'date' => $request->date ?? $event->date,
+            'start_time' => $request->start_time ?? $event->start_time,
+            'end_time' => $request->end_time ?? $event->end_time,
+            'number_of_volunteers' => $request->number_of_volunteers ?? $event->number_of_volunteers,
+            'available_volunteers' => $request->number_of_volunteers ?? $event->available_volunteers,
+            'number_of_organizers' => $request->number_of_organizers ?? $event->number_of_organizers,
+            'location' => $request->location ?? $event->location,
+            'google_maps_location' => $request->google_maps_location ?? $event->google_maps_location,
+            'description' => $request->description ?? $event->description,
+            'image' => $request->image ? $this->storeBase64Image($request->image, 'events/images') : $event->image,
+            'status' => $request->status ?? $event->status,
+        ]);
+
+        // ✅ Delete old benefits and insert new ones
+        $event->event_benfits()->delete();
+        foreach ($request->benfit as $benefit) {
+            $event->event_benfits()->create([
+                'benfit' => $benefit['benfit'],
+                'status' => $benefit['status'],
+            ]);
+        }
+
+        // ✅ Delete old requirements and insert new ones
+        $event->event_requirments()->delete();
+        foreach ($request->requirment as $requirement) {
+            $event->event_requirments()->create([
+                'requirment' => $requirement['requirment'],
+                'status' => $requirement['status'],
+            ]);
+        }
+
+        DB::commit();
+
+        return response()->json([
+            'message' => 'Event updated successfully',
+            'data' => $event->load(['event_benfits', 'event_requirments']),
+        ], 200);
+    } catch (\Exception $e) {
+        DB::rollBack();
+
+        return response()->json([
+            'message' => 'Failed to update event',
+            'error' => $e->getMessage(),
+        ], 500);
     }
+}
+
 
     public function deleteEvent($eventId)
     {
