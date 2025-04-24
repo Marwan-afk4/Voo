@@ -37,7 +37,7 @@ class HomePageController extends Controller
             'from_zone.city.country:id,name',
         ])->get();
 
-        $acceptedRequest = ModelsRequest::where('user_id', $user->id)->count();
+        $acceptedRequest = ModelsRequest::where('user_id', $user->id)->where('status', 'accepted')->count();
         $pendingRequest = ModelsRequest::where('user_id', $user->id)->where('status', 'pending')->count();
         $rejectedRequest = ModelsRequest::where('user_id', $user->id)->where('status', 'rejected')->count();
         $lostRequest = ModelsRequest::where('user_id', $user->id)->where('status', 'lost')->count();

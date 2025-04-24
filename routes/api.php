@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\Auth\AuthenticationController;
 use App\Http\Controllers\Api\User\HistoryController;
 use App\Http\Controllers\Api\User\HomePageController;
 use App\Http\Controllers\Api\User\LocationController as UserLocationController;
+use App\Http\Controllers\Api\User\RequestListController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -137,6 +138,8 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
         Route::get('/user/eventsAndTasks', [HomePageController::class, 'getEventsAndTaks']);
 
         Route::get('/user/historyRequests',[HistoryController::class,'getHistoryAttend']);
+
+        Route::get('/user/pendingApproved',[RequestListController::class,'PendingApproved']);
 
 
     });
