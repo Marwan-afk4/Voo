@@ -14,7 +14,7 @@ class UserController extends Controller
 
     public function getUsers(){
         $users = User::where('role', 'user')
-        ->with(['country:name,id', 'city:name,id', 'user_papers'])->get();
+        ->with(['country:name,id', 'city:name,id', 'user_papers','orgnization'])->get();
         $data =[
             'users' => $users,
         ];

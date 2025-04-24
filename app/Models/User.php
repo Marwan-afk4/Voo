@@ -70,4 +70,9 @@ class User extends Model
     {
         return $this->hasMany(UserPaper::class);
     }
+
+    public function orgnization()
+    {
+        return $this->belongsTo(User::class,'orgnization_id');
+    }
 }
