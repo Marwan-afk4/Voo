@@ -7,6 +7,9 @@ use App\Http\Controllers\Api\Admin\OrgnizationController;
 use App\Http\Controllers\Api\Admin\TaskController;
 use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\Auth\AuthenticationController;
+use App\Http\Controllers\Api\Orgnization\EventController as OrgnizationEventController;
+use App\Http\Controllers\Api\Orgnization\TaskController as OrgnizationTaskController;
+use App\Http\Controllers\Api\Orgnization\UserController as OrgnizationUserController;
 use App\Http\Controllers\Api\User\HistoryController;
 use App\Http\Controllers\Api\User\HomePageController;
 use App\Http\Controllers\Api\User\LocationController as UserLocationController;
@@ -141,5 +144,44 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
 
         Route::get('/user/pendingApproved',[RequestListController::class,'PendingApproved']);
 
+
+    });
+
+
+
+
+    Route::middleware((['auth:sanctum','IsOrgniazation']))->group(function () {
+
+        Route::get('/ornization/profile', [OrgnizationUserController::class, 'OrnizationPrfile']);
+
+        Route::put('/ornization/profile/update', [OrgnizationUserController::class, 'editOrgnizationProfile']);
+
+        Route::get('/ornization/users', [OrgnizationUserController::class, 'getOrgnizationUsers']);
+
+        Route::get('/ornization/user/{id}', [OrgnizationUserController::class, 'getUser']);
+
+        Route::post('/ornization/user/add', [OrgnizationUserController::class, 'addUser']);
+
+        Route::delete('/ornization/user/delete/{id}', [OrgnizationUserController::class, 'deleteUser']);
+
+        Route::get('/ornization/task', [OrgnizationTaskController::class, 'getOrgnizationTasks']);
+
+        Route::get('/ornization/task/{id}', [OrgnizationTaskController::class, 'getTaskById']);
+
+        Route::post('/ornization/task/add', [OrgnizationTaskController::class, 'addTask']);
+
+        Route::put('/ornization/task/update/{id}', [OrgnizationTaskController::class, 'updateTask']);
+
+        Route::delete('/ornization/task/delete/{id}', [OrgnizationTaskController::class, 'deleteTask']);
+
+        Route::get('/ornization/event', [OrgnizationEventController::class, 'getEvents']);
+
+        Route::get('/ornization/event/{id}', [OrgnizationEventController::class, 'getEventById']);
+
+        Route::post('/ornization/event/add', [OrgnizationEventController::class, 'addEvent']);
+
+        Route::put('/ornization/event/update/{id}', [OrgnizationEventController::class, 'updateEvent']);
+        
+        Route::delete('/ornization/event/delete/{eventId}', [OrgnizationEventController::class, 'deleteEvent']);
 
     });
