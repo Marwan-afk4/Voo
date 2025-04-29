@@ -144,6 +144,8 @@ class LocationController extends Controller
         }
     }
 
+////////////////////// Zones //////////////////////
+
     public function GetZones(){
         $zones = Zone::with(['city:id,name,country_id','country:id,name'])->get();
         $data = [

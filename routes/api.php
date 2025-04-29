@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\Admin\TaskController;
 use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\Auth\AuthenticationController;
 use App\Http\Controllers\Api\Orgnization\EventController as OrgnizationEventController;
+use App\Http\Controllers\Api\Orgnization\LocationController as OrgnizationLocationController;
 use App\Http\Controllers\Api\Orgnization\TaskController as OrgnizationTaskController;
 use App\Http\Controllers\Api\Orgnization\UserController as OrgnizationUserController;
 use App\Http\Controllers\Api\User\HistoryController;
@@ -181,7 +182,13 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
         Route::post('/ornization/event/add', [OrgnizationEventController::class, 'addEvent']);
 
         Route::put('/ornization/event/update/{id}', [OrgnizationEventController::class, 'updateEvent']);
-        
+
         Route::delete('/ornization/event/delete/{eventId}', [OrgnizationEventController::class, 'deleteEvent']);
+
+        Route::get('/orgnization/getCountry', [OrgnizationLocationController::class, 'GetCountry']);
+
+        Route::get('/orgnization/getCity', [OrgnizationLocationController::class, 'GetCity']);
+
+        Route::get('/orgnization/getZone', [OrgnizationLocationController::class, 'GetZones']);
 
     });
