@@ -25,7 +25,8 @@ class User extends Model
         'is_email_verified',
         'email_verification_code',
         'account_status',
-        'role'
+        'role',
+        'orgnization_id',
     ];
 
     protected $hidden = [
