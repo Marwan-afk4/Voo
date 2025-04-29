@@ -24,7 +24,8 @@ class Event extends Model
         'google_maps_location',
         'description',
         'image',
-        'status'
+        'status',
+        'event_hours'
     ];
 
     protected $hidden = [

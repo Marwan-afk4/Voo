@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\Orgnization\EventController as OrgnizationEventCont
 use App\Http\Controllers\Api\Orgnization\LocationController as OrgnizationLocationController;
 use App\Http\Controllers\Api\Orgnization\TaskController as OrgnizationTaskController;
 use App\Http\Controllers\Api\Orgnization\UserController as OrgnizationUserController;
+use App\Http\Controllers\Api\User\ApplyController;
 use App\Http\Controllers\Api\User\HistoryController;
 use App\Http\Controllers\Api\User\HomePageController;
 use App\Http\Controllers\Api\User\LocationController as UserLocationController;
@@ -144,6 +145,8 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
         Route::get('/user/historyRequests',[HistoryController::class,'getHistoryAttend']);
 
         Route::get('/user/pendingApproved',[RequestListController::class,'PendingApproved']);
+
+        Route::post('/user/Apply',[ApplyController::class,'applyFor']);
 
 
     });

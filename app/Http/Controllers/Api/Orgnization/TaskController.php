@@ -58,6 +58,7 @@ class TaskController extends Controller
             'status'=>'required|in:active,inactive',
             'image'=>'required',
             'location'=>'nullable',
+            'google_map_location'=>'nullable',
             'requirments'=>'nullable|array',
             'requirments.*'=>'required|string|max:255',
             'benfits'=>'nullable|array',
@@ -80,6 +81,7 @@ class TaskController extends Controller
                 'status'=>$request->status,
                 'image'=>$this->storeBase64Image($request->image, 'tasks/image'),
                 'location'=>$request->location,
+                'google_map_location'=>$request->google_map_location,
             ]);
             if ($request->has('requirments')) {
                 foreach ($request->requirments as $requirment) {
@@ -118,6 +120,8 @@ class TaskController extends Controller
             'number_of_voo_needed'=>'nullable|integer',
             'status'=>'nullable|in:active,inactive',
             'image'=>'nullable',
+            'location'=>'nullable',
+            'google_map_location'=>'nullable',
         ]);
         if($validation->fails()){
             return response()->json(['message'=>$validation->errors()], 422);
@@ -136,6 +140,8 @@ class TaskController extends Controller
             'number_of_voo_needed'=>$request->number_of_voo_needed ?? $task->number_of_voo_needed,
             'status'=>$request->status ?? $task->status,
             'image'=> $request->image ? $this->storeBase64Image($request->image, 'Orgnization/tasks/image') : $task->image,
+            'location'=>$request->location ?? $task->location,
+            'google_map_location'=>$request->google_map_location ?? $task->google_map_location,
         ]);
         return response()->json(['message'=>'Task updated successfully'], 200);
     }

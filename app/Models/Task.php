@@ -19,7 +19,9 @@ class Task extends Model
         'status',
         'image',
         'orgnization_id',
-        'location'
+        'location',
+        'task_hours',
+        'google_map_location'
     ];
 
     protected $hidden = [
@@ -61,5 +63,10 @@ class Task extends Model
     public function task_benfits()
     {
         return $this->hasMany(TaskBenfit::class);
+    }
+
+    public function task_volunteers()
+    {
+        return $this->hasMany(TaskVolunteer::class);
     }
 }
