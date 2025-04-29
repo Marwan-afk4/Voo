@@ -19,6 +19,7 @@ class Task extends Model
         'status',
         'image',
         'orgnization_id',
+        'location'
     ];
 
     protected $hidden = [
@@ -50,5 +51,15 @@ class Task extends Model
     public function orgnization()
     {
         return $this->belongsTo(User::class,'orgnization_id');
+    }
+
+    public function task_requirments()
+    {
+        return $this->hasMany(TaskRequirment::class);
+    }
+
+    public function task_benfits()
+    {
+        return $this->hasMany(TaskBenfit::class);
     }
 }

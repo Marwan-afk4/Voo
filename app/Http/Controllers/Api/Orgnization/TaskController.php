@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Image;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class TaskController extends Controller
@@ -45,8 +46,8 @@ class TaskController extends Controller
     }
 
     public function addTask(Request $request){
-        $orgnizationId = $request->user()->id;
         $Validation = Validator::make($request->all(), [
+            'orgnization_id'=>'required|exists:users,id',
             'name'=>'required|string|max:255',
             'from_zone_id'=>'required|exists:zones,id',
             'to_zone_id'=>'required|exists:zones,id',
@@ -56,22 +57,52 @@ class TaskController extends Controller
             'number_of_voo_needed'=>'required|integer',
             'status'=>'required|in:active,inactive',
             'image'=>'required',
+            'location'=>'nullable',
+            'requirments'=>'nullable|array',
+            'requirments.*'=>'required|string|max:255',
+            'benfits'=>'nullable|array',
+            'benfits.*'=>'required|string|max:255',
         ]);
         if($Validation->fails()){
             return response()->json(['message'=>$Validation->errors()], 422);
         }
-        $task = Task::create([
-            'orgnization_id'=>$orgnizationId,
-            'name'=>$request->name,
-            'from_zone_id'=>$request->from_zone_id,
-            'to_zone_id'=>$request->to_zone_id,
-            'description'=>$request->description,
-            'date'=>$request->date,
-            'start_time'=>$request->start_time,
-            'number_of_voo_needed'=>$request->number_of_voo_needed,
-            'status'=>$request->status,
-            'image'=>$this->storeBase64Image($request->image, 'Orgnization/tasks/image'),
-        ]);
+        DB::beginTransaction();
+        try {
+            $task = Task::create([
+                'orgnization_id'=>$request->orgnization_id,
+                'name'=>$request->name,
+                'from_zone_id'=>$request->from_zone_id,
+                'to_zone_id'=>$request->to_zone_id,
+                'description'=>$request->description,
+                'date'=>$request->date,
+                'start_time'=>$request->start_time,
+                'number_of_voo_needed'=>$request->number_of_voo_needed,
+                'status'=>$request->status,
+                'image'=>$this->storeBase64Image($request->image, 'tasks/image'),
+                'location'=>$request->location,
+            ]);
+            if ($request->has('requirments')) {
+                foreach ($request->requirments as $requirment) {
+                    $task->task_requirments()->create([
+                        'task_id' => $task->id,
+                        'requirment' => $requirment
+                    ]);
+                }
+            }
+            if ($request->has('benfits')) {
+                foreach ($request->benfits as $benfit) {
+                    $task->task_benfits()->create([
+                        'task_id' => $task->id,
+                        'benfit' => $benfit
+                    ]);
+                }
+            }
+            DB::commit();
+        }
+        catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['message'=>'Error in creating task'], 500);
+        }
         return response()->json(['message'=>'Task created successfully'], 200);
     }
 
