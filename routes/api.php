@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\User\HistoryController;
 use App\Http\Controllers\Api\User\HomePageController;
 use App\Http\Controllers\Api\User\LocationController as UserLocationController;
 use App\Http\Controllers\Api\User\RequestListController;
+use App\Http\Controllers\Api\User\ShakwaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -147,6 +148,14 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
         Route::get('/user/pendingApproved',[RequestListController::class,'PendingApproved']);
 
         Route::post('/user/Apply',[ApplyController::class,'applyFor']);
+
+        Route::get('/user/shakwa',[ShakwaController::class,'getShakwa']);
+
+        Route::post('/user/shakwa/add',[ShakwaController::class,'AddShakwa']);
+
+        Route::get('/user/suggest',[ShakwaController::class,'getSuggest']);
+
+        Route::post('/user/suggest/add',[ShakwaController::class,'AddSuggest']);
 
 
     });
