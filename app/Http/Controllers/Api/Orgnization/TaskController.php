@@ -46,8 +46,8 @@ class TaskController extends Controller
     }
 
     public function addTask(Request $request){
+        $orgnizationId = $request->user()->id;
         $Validation = Validator::make($request->all(), [
-            'orgnization_id'=>'required|exists:users,id',
             'name'=>'required|string|max:255',
             'from_zone_id'=>'required|exists:zones,id',
             'to_zone_id'=>'required|exists:zones,id',
@@ -69,7 +69,7 @@ class TaskController extends Controller
         DB::beginTransaction();
         try {
             $task = Task::create([
-                'orgnization_id'=>$request->orgnization_id,
+                'orgnization_id'=>$orgnizationId,
                 'name'=>$request->name,
                 'from_zone_id'=>$request->from_zone_id,
                 'to_zone_id'=>$request->to_zone_id,
