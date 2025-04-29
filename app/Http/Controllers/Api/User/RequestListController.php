@@ -19,6 +19,8 @@ class RequestListController extends Controller
             'event.event_benfits',
             'event.event_requirments',
             'task',
+            'task.task_benfits',
+            'task.task_requirments',
             'orgnization:id,name,email'
         ])
         ->get();
@@ -29,6 +31,8 @@ class RequestListController extends Controller
             'event.event_benfits',
             'event.event_requirments',
             'task',
+            'task.task_benfits',
+            'task.task_requirments',
             'orgnization:id,name,email'
         ])
         ->get();
