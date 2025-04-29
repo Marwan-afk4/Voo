@@ -35,6 +35,8 @@ class HomePageController extends Controller
             'from_zone.city:id,name,country_id',
             'to_zone.city.country:id,name',
             'from_zone.city.country:id,name',
+            'task_requirments:id,task_id,requirment',
+            'task_benfits:id,task_id,benfit',
         ])->get();
 
         $acceptedRequest = ModelsRequest::where('user_id', $user->id)->where('status', 'accepted')->count();
