@@ -125,6 +125,14 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
 
         Route::delete('/admin/request/delete/{id}', [AdminRequestController::class, 'deleteRequest']);
 
+//////////////////////////////////////////////// Shakwa and Suggest ////////////////////////////////////////////////////////
+
+        Route::get('/admin/shakwa', [UserController::class, 'getShakawy']);
+
+        Route::get('/admin/suggest', [UserController::class, 'getSuggests']);
+
+
+
 
     });
 

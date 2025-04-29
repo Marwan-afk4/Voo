@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Shakwa;
+use App\Models\Suggest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -99,6 +101,20 @@ class UserController extends Controller
         $user->delete();
         return response()->json([
             'message' => 'User deleted successfully',
+        ]);
+    }
+
+    public function getShakawy(){
+        $shakawy = Shakwa::with(['user:id,name'])->get();
+        return response()->json([
+            'shakawy' => $shakawy,
+        ]);
+    }
+
+    public function getSuggests(){
+        $suggest = Suggest::with(['user:id,name'])->get();
+        return response()->json([
+            'Suggests' => $suggest,
         ]);
     }
 }
