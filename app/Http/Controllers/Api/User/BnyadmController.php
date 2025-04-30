@@ -30,7 +30,7 @@ class BnyadmController extends Controller
             'front_identity' =>$this->storeBase64Image($request->front_identity, 'user/Front_identity/user_papers'),
             'back_identity' =>$this->storeBase64Image($request->back_identity, 'user/Back/user_papers'),
             'selfi_image' =>$this->storeBase64Image($request->selfi_image, 'user/Selfi/user_papers'),
-            'orgnization_paper' =>$this->storeBase64Image($request->orgnization_papers, 'user/Orgnization_paper/user_papers'),
+            'orgnization_paper' =>$this->storeBase64Image($request->orgnization_paper, 'user/Orgnization_paper/user_papers'),
         ]);
         return response()->json([
             'message' => 'Bnyadm added successfully',
