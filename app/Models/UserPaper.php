@@ -14,7 +14,8 @@ class UserPaper extends Model
         'front_identity',
         'back_identity',
         'selfi_image',
-        'orgnization_paper'
+        'orgnization_paper',
+        'status'
     ];
 
     public function getFrontLinkAttribute(){

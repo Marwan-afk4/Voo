@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\Orgnization\LocationController as OrgnizationLocati
 use App\Http\Controllers\Api\Orgnization\TaskController as OrgnizationTaskController;
 use App\Http\Controllers\Api\Orgnization\UserController as OrgnizationUserController;
 use App\Http\Controllers\Api\User\ApplyController;
+use App\Http\Controllers\Api\User\BnyadmController;
 use App\Http\Controllers\Api\User\HistoryController;
 use App\Http\Controllers\Api\User\HomePageController;
 use App\Http\Controllers\Api\User\LocationController as UserLocationController;
@@ -179,6 +180,8 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
         Route::get('/user/suggest',[ShakwaController::class,'getSuggest']);
 
         Route::post('/user/suggest/add',[ShakwaController::class,'AddSuggest']);
+
+        Route::post('/user/bebnyadm',[BnyadmController::class,'BeBnyadm']);
 
 
     });
