@@ -272,4 +272,40 @@ public function getEventShakwat($eventId){
         }
 }
 
+    public function ReadTaskSuggest($taskId){
+        $taskSuggest = Suggest::where('task_id', $taskId);
+            if($taskSuggest){
+                $taskSuggest->status = 'read';
+                $taskSuggest->save();
+            }
+            if ($taskSuggest) {
+            return response()->json([
+                'message' => 'Task suggest retrieved successfully',
+                'data' => $taskSuggest
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Task not found'
+            ], 404);
+        }
+    }
+
+    public function ReadEventSuggest($eventId){
+        $eventSuggest = Suggest::where('event_id', $eventId);
+            if($eventSuggest){
+                $eventSuggest->status = 'read';
+                $eventSuggest->save();
+            }
+            if ($eventSuggest) {
+            return response()->json([
+                'message' => 'Event suggest retrieved successfully',
+                'data' => $eventSuggest
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Event not found'
+            ], 404);
+        }
+    }
+
 }

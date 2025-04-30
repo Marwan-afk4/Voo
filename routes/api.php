@@ -159,6 +159,10 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
 
         Route::get('/admin/getTaskSuggest/{taskId}', [OperationController::class, 'getTaskSuggest']);
 
+        Route::put('/admin/readEventSuggest/{eventId}', [OperationController::class, 'ReadEventSuggest']);
+
+        Route::put('/admin/readTaskSuggest/{taskId}', [OperationController::class, 'ReadTaskSuggest']);
+
 ////////////////////////////////////////////////////// Bnyadm /////////////////////////////////////////////////////////
 
         Route::get('/admin/bnyadm', [BnyadmRequstController::class, 'getBnyadmRequstList']);
@@ -287,6 +291,10 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
         Route::get('/orgnization/getEventSuggest/{eventId}', [OrgnizationOperationController::class, 'getEventSuggest']);
 
         Route::get('/orgnization/getTaskSuggest/{taskId}', [OrgnizationOperationController::class, 'getTaskSuggest']);
+
+        Route::get('/orgnization/readEventSuggest/{eventId}', [OrgnizationOperationController::class, 'readEventSuggest']);
+
+        Route::get('/orgnization/readTaskSuggest/{taskId}', [OrgnizationOperationController::class, 'readTaskSuggest']);
 
 ///////
 
