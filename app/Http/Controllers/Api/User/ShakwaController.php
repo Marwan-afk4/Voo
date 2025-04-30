@@ -16,8 +16,8 @@ class ShakwaController extends Controller
     {
         $user = $request->user();
         $Validation = Validator::make($request->all(), [
-            'shakwa_title' => 'nullable|string',
-            'shakwa_description' => 'nullable|string',
+            'shakwa_title' => 'required|string',
+            'shakwa_description' => 'required|string',
         ]);
         if ($Validation->fails()) {
             return response()->json($Validation->errors(), 422);
@@ -38,8 +38,10 @@ class ShakwaController extends Controller
     {
         $user = $request->user();
         $Validation = Validator::make($request->all(), [
-            'suggest_title' => 'nullable|string',
-            'suggest_description' => 'nullable|string',
+            'event_id' => 'nullable|exists:events,id',
+            'task_id' => 'nullable|exists:tasks,id',
+            'suggest_title' => 'required|string',
+            'suggest_description' => 'required|string',
         ]);
         if ($Validation->fails()) {
             return response()->json($Validation->errors(), 422);
@@ -55,7 +57,7 @@ class ShakwaController extends Controller
         ])->setStatusCode(201, 'Created');
     }
 
-    
+
     public function getShakwa(Request $request)
     {
         $user = $request->user();

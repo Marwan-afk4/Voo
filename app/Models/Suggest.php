@@ -11,7 +11,9 @@ class Suggest extends Model
     protected $fillable =[
         'user_id',
         'suggest_title',
-        'suggest_description'
+        'suggest_description',
+        'task_id',
+        'event_id',
     ];
 
     protected $hidden = [
