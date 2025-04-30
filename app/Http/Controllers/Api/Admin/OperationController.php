@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\EventVolunteer;
 use App\Models\Task;
+use App\Models\TaskVolunteer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator as FacadesValidator;
 
@@ -129,6 +130,17 @@ class OperationController extends Controller
             $volunteerRecord->status = $request->status;
             $volunteerRecord->save();
 
+        if($request->status == 'accepted'){
+            $volunteerRecord->event->number_of_volunteers -= 1;
+            $volunteerRecord->event->save();
+        }
+
+        if($request->status == 'attend'){
+            $volunteerRecord->user->total_hours += $volunteerRecord->event->event_hours;
+            $volunteerRecord->user->total_events += 1;
+            $volunteerRecord->user->save();
+        }
+
             return response()->json([
                 'message' => 'Volunteer status updated successfully'
             ]);
@@ -153,12 +165,21 @@ class OperationController extends Controller
         }
 
         // Find the volunteer record for that user
-        $volunteerRecord = EventVolunteer::where('user_id', $volunteerId)->first();
+        $volunteerRecord = TaskVolunteer::where('user_id', $volunteerId)->first();
 
         if ($volunteerRecord) {
             $volunteerRecord->status = $request->status;
             $volunteerRecord->save();
 
+            if($request->status == 'accepted'){
+                $volunteerRecord->task->number_of_voo_needed -= 1;
+                $volunteerRecord->task->save();
+            }
+            if($request->status == 'attend'){
+                $volunteerRecord->user->total_hours += $volunteerRecord->task->task_hours;
+                $volunteerRecord->user->total_tasks += 1;
+                $volunteerRecord->user->save();
+            }
             return response()->json([
                 'message' => 'Volunteer status updated successfully'
             ]);

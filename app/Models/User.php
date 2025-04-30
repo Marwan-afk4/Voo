@@ -27,6 +27,7 @@ class User extends Model
         'account_status',
         'role',
         'orgnization_id',
+        'total_tasks'
     ];
 
     protected $hidden = [
