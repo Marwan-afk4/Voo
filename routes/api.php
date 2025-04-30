@@ -306,6 +306,4 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
 
         Route::put('/orgnization/bnyadm/reject/{id}', [OrgnizationBnyadmRequstController::class, 'rejectBnyadmRequst']);
 
-
-
     });
