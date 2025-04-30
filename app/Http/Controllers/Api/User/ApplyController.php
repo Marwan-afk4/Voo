@@ -34,7 +34,7 @@ class ApplyController extends Controller
                 'task_id' => $task->id,
                 'hours' => $task->task_hours,
             ]);
-            // $task->increment('number_of_voo_needed', -1);
+            
         }
         elseif($event){
             if ($event->available_volunteers <= 0) {
@@ -45,7 +45,6 @@ class ApplyController extends Controller
                 'event_id' => $event->id,
                 'hours' => $event->event_hours,
             ]);
-            // $event->increment('number_of_voo_needed', -1);
         }
         return response()->json([
             'message' => 'Applied successfully',

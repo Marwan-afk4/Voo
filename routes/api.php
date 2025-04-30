@@ -10,6 +10,8 @@ use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\Auth\AuthenticationController;
 use App\Http\Controllers\Api\Orgnization\EventController as OrgnizationEventController;
 use App\Http\Controllers\Api\Orgnization\LocationController as OrgnizationLocationController;
+use App\Http\Controllers\Api\Orgnization\OperationController as OrgnizationOperationController;
+use App\Http\Controllers\Api\Orgnization\RequestController;
 use App\Http\Controllers\Api\Orgnization\TaskController as OrgnizationTaskController;
 use App\Http\Controllers\Api\Orgnization\UserController as OrgnizationUserController;
 use App\Http\Controllers\Api\User\ApplyController;
@@ -228,5 +230,33 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
         Route::get('/orgnization/getCity', [OrgnizationLocationController::class, 'GetCity']);
 
         Route::get('/orgnization/getZone', [OrgnizationLocationController::class, 'GetZones']);
+
+        //////
+
+        Route::get('/orgnization/request', [RequestController::class, 'getAllRequest']);
+
+        Route::put('/orgnization/request/accept/{id}', [RequestController::class, 'acceptRequest']);
+
+        Route::put('/orgnization/request/reject/{id}', [RequestController::class, 'rejectRequest']);
+
+        Route::put('/orgnization/request/attend/{id}', [RequestController::class, 'attendRequest']);
+
+        Route::put('/orgnization/request/lost/{id}', [RequestController::class, 'lostRequest']);
+
+    //////
+
+        Route::get('/orgnization/getEventDetails/{eventId}', [OrgnizationOperationController::class, 'getEventsDetails']);
+
+        Route::get('/orgnization/getTaskDetails/{taskId}', [OrgnizationOperationController::class, 'getTasksDetails']);
+
+        Route::get('/orgnization/getEventVolunteers/{eventId}', [OrgnizationOperationController::class, 'getEventVolunteers']);
+
+        Route::get('/orgnization/getTaskVolunteers/{taskId}', [OrgnizationOperationController::class, 'getTaskVolunteers']);
+
+        Route::put('/orgnization/changeEventVolunteerStatus/{volunteerId}', [OrgnizationOperationController::class, 'changeEventVolunteerStatus']);
+        
+        Route::put('/orgnization/changeTaskVolunteerStatus/{volunteerId}', [OrgnizationOperationController::class, 'changeTaskVolunteerStatus']);
+
+
 
     });
