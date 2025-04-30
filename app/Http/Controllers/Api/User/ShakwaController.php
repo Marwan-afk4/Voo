@@ -16,6 +16,8 @@ class ShakwaController extends Controller
     {
         $user = $request->user();
         $Validation = Validator::make($request->all(), [
+            'event_id' => 'nullable|exists:events,id',
+            'task_id' => 'nullable|exists:tasks,id',
             'shakwa_title' => 'required|string',
             'shakwa_description' => 'required|string',
         ]);
@@ -24,6 +26,8 @@ class ShakwaController extends Controller
         }
         $shakwa = Shakwa::create([
             'user_id' => $user->id,
+            'task_id'=>$request->task_id ?? null,
+            'event_id'=>$request->event_id ?? null,
             'shakwa_title' => $request->shakwa_title,
             'shakwa_description' => $request->shakwa_description,
         ]);
@@ -48,12 +52,14 @@ class ShakwaController extends Controller
         }
         $shakwa = Suggest::create([
             'user_id' => $user->id,
+            'task_id'=>$request->task_id ?? null,
+            'event_id'=>$request->event_id ?? null,
             'suggest_title' => $request->suggest_title,
             'suggest_description' => $request->suggest_description,
         ]);
         return response()->json([
             'message' => 'Suggest added successfully',
-            'shakwa' => $shakwa,
+            'sugeest' => $shakwa,
         ])->setStatusCode(201, 'Created');
     }
 
