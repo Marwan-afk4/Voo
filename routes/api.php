@@ -142,7 +142,7 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
 
         Route::get('/admin/getTaskVolunteers/{taskId}', [OperationController::class, 'getTaskVolunteers']);
 
-        Route::put('/admin/changeVolunteerStatus/{volunteerId}', [OperationController::class, 'changeEventVolunteerStatus']);
+        Route::put('/admin/changeEventVolunteerStatus/{volunteerId}', [OperationController::class, 'changeEventVolunteerStatus']);
 
         Route::put('/admin/changeTaskVolunteerStatus/{volunteerId}', [OperationController::class, 'changeTaskVolunteerStatus']);
 
