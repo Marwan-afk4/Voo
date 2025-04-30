@@ -185,6 +185,8 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
 
         Route::post('/user/bebnyadm',[BnyadmController::class,'BeBnyadm']);
 
+        Route::get('/user/OrgnizationList',[ApplyController::class,'OrginizationList']);
+
 
     });
 
@@ -254,7 +256,7 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
         Route::get('/orgnization/getTaskVolunteers/{taskId}', [OrgnizationOperationController::class, 'getTaskVolunteers']);
 
         Route::put('/orgnization/changeEventVolunteerStatus/{volunteerId}', [OrgnizationOperationController::class, 'changeEventVolunteerStatus']);
-        
+
         Route::put('/orgnization/changeTaskVolunteerStatus/{volunteerId}', [OrgnizationOperationController::class, 'changeTaskVolunteerStatus']);
 
 

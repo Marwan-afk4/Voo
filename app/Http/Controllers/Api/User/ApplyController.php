@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -34,7 +35,7 @@ class ApplyController extends Controller
                 'task_id' => $task->id,
                 'hours' => $task->task_hours,
             ]);
-            
+
         }
         elseif($event){
             if ($event->available_volunteers <= 0) {
@@ -51,4 +52,16 @@ class ApplyController extends Controller
         ]);
 
     }
+
+//// 34an hamata
+
+    public function OrginizationList(){
+        $orgnization = User::where('role', 'organization')
+        ->with(['country:name,id', 'city:name,id',])->get();
+        $data =[
+            'orgnization' => $orgnization,
+        ];
+        return response()->json($data, 200);
+    }
+
 }
