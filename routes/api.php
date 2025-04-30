@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Admin\AdminRequestController;
+use App\Http\Controllers\Api\Admin\BnyadmRequstController;
 use App\Http\Controllers\Api\Admin\EventController;
 use App\Http\Controllers\Api\Admin\LocationController;
 use App\Http\Controllers\Api\Admin\OperationController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\Api\Admin\OrgnizationController;
 use App\Http\Controllers\Api\Admin\TaskController;
 use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\Auth\AuthenticationController;
+use App\Http\Controllers\Api\Orgnization\BnyadmRequstController as OrgnizationBnyadmRequstController;
 use App\Http\Controllers\Api\Orgnization\EventController as OrgnizationEventController;
 use App\Http\Controllers\Api\Orgnization\LocationController as OrgnizationLocationController;
 use App\Http\Controllers\Api\Orgnization\OperationController as OrgnizationOperationController;
@@ -149,6 +151,25 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
 
         Route::put('/admin/changeTaskVolunteerStatus/{volunteerId}', [OperationController::class, 'changeTaskVolunteerStatus']);
 
+        Route::get('/admin/getEventShakawy/{eventId}', [OperationController::class, 'getEventShakwat']);
+
+        Route::get('/admin/getTaskShakawy/{taskId}', [OperationController::class, 'getTaskShakwat']);
+
+        Route::get('/admin/getEventSuggest/{eventId}', [OperationController::class, 'getEventSuggest']);
+
+        Route::get('/admin/getTaskSuggest/{taskId}', [OperationController::class, 'getTaskSuggest']);
+
+////////////////////////////////////////////////////// Bnyadm /////////////////////////////////////////////////////////
+
+        Route::get('/admin/bnyadm', [BnyadmRequstController::class, 'getBnyadmRequstList']);
+
+        Route::get('/admin/bnyadm/{id}', [BnyadmRequstController::class, 'getBnyadmRequstDetails']);
+
+        Route::put('/admin/bnyadm/accept/{id}', [BnyadmRequstController::class, 'acceptBnyadmRequst']);
+
+        Route::put('/admin/bnyadm/reject/{id}', [BnyadmRequstController::class, 'rejectBnyadmRequst']);
+
+
 
 
 
@@ -258,6 +279,24 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
         Route::put('/orgnization/changeEventVolunteerStatus/{volunteerId}', [OrgnizationOperationController::class, 'changeEventVolunteerStatus']);
 
         Route::put('/orgnization/changeTaskVolunteerStatus/{volunteerId}', [OrgnizationOperationController::class, 'changeTaskVolunteerStatus']);
+
+        Route::get('/orgnization/getEventShakawy/{eventId}', [OrgnizationOperationController::class, 'getEventShakwat']);
+
+        Route::get('/orgnization/getTaskShakawy/{taskId}', [OrgnizationOperationController::class, 'getTaskShakwat']);
+
+        Route::get('/orgnization/getEventSuggest/{eventId}', [OrgnizationOperationController::class, 'getEventSuggest']);
+
+        Route::get('/orgnization/getTaskSuggest/{taskId}', [OrgnizationOperationController::class, 'getTaskSuggest']);
+
+///////
+
+        Route::get('/orgnization/bnyadm', [OrgnizationBnyadmRequstController::class, 'getBnyadmRequstList']);
+
+        Route::get('/orgnization/bnyadm/{id}', [OrgnizationBnyadmRequstController::class, 'getBnyadmRequstDetails']);
+
+        Route::put('/orgnization/bnyadm/accept/{id}', [OrgnizationBnyadmRequstController::class, 'acceptBnyadmRequst']);
+
+        Route::put('/orgnization/bnyadm/reject/{id}', [OrgnizationBnyadmRequstController::class, 'rejectBnyadmRequst']);
 
 
 

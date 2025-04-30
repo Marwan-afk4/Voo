@@ -25,7 +25,8 @@ class EventController extends Controller
                 'event_benfits:id,event_id,benfit,status',
                 'event_requirments:id,event_id,requirment,status',
                 'event_volunteers:id,event_id,role,user_id',
-                'event_volunteers.user:id,name,email,phone'
+                'event_volunteers.user:id,name,email,phone',
+                'orgnization'
             ])
             ->get();
         $data = [
@@ -43,7 +44,8 @@ class EventController extends Controller
             'event_benfits:id,event_id,benfit,status',
             'event_requirments:id,event_id,requirment,status',
             'event_volunteers:id,event_id,role,user_id',
-            'event_volunteers.user:id,name,email,phone'
+            'event_volunteers.user:id,name,email,phone',
+            'orgnization'
         ])
             ->find($id);
 

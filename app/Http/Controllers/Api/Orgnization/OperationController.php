@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\Orgnization;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\EventVolunteer;
+use App\Models\Shakwa;
+use App\Models\Suggest;
 use App\Models\Task;
 use App\Models\TaskVolunteer;
 use Illuminate\Http\Request;
@@ -185,5 +187,89 @@ class OperationController extends Controller
             ], 404);
         }
     }
+
+// GET EVENT SHAKWAT////////////////////////////
+
+public function getEventShakwat($eventId){
+    $eventShakwa = Shakwa::where('event_id', $eventId)
+        ->with([
+            'user:id,name,email,phone',
+            'event:id,name,orgnization_id',
+            'event.orgnization:id,name,email,phone'
+        ])->get();
+        if ($eventShakwa) {
+            return response()->json([
+                'message' => 'Event shakwat retrieved successfully',
+                'data' => $eventShakwa
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Event not found'
+            ], 404);
+        }
+    }
+
+// GET TASK SHAKWAT////////////////////////////
+
+    public function getTaskShakwat($taskId){
+        $taskShakwa = Shakwa::where('task_id', $taskId)
+            ->with([
+                'user:id,name,email,phone',
+                'task:id,name,orgnization_id',
+                'task.orgnization:id,name,email,phone'
+            ])->get();
+        if ($taskShakwa) {
+            return response()->json([
+                'message' => 'Task shakwat retrieved successfully',
+                'data' => $taskShakwa
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Task not found'
+            ], 404);
+        }
+    }
+
+// GET EVENT SUGGEST/////////////////////////////
+
+    public function getEventSuggest($eventId){
+        $eventSuggest = Suggest::where('event_id', $eventId)
+            ->with([
+                'user:id,name,email,phone',
+                'event:id,name,orgnization_id',
+                'event.orgnization:id,name,email,phone'
+            ])->get();
+        if ($eventSuggest) {
+            return response()->json([
+                'message' => 'Event suggest retrieved successfully',
+                'data' => $eventSuggest
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Event not found'
+            ], 404);
+        }
+    }
+
+// GET TASK SUGGEST/////////////////////////////
+
+    public function getTaskSuggest($taskId){
+        $taskSuggest = Suggest::where('task_id', $taskId)
+            ->with([
+                'user:id,name,email,phone',
+                'task:id,name,orgnization_id',
+                'task.orgnization:id,name,email,phone'
+            ])->get();
+        if ($taskSuggest) {
+            return response()->json([
+                'message' => 'Task suggest retrieved successfully',
+                'data' => $taskSuggest
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Task not found'
+            ], 404);
+        }
+}
 
 }
