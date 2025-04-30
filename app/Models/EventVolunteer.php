@@ -12,7 +12,8 @@ class EventVolunteer extends Model
         'event_id',
         'user_id',
         'role',
-        'hours'
+        'hours',
+        'status',
     ];
 
     protected $hidden = [

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Admin\AdminRequestController;
 use App\Http\Controllers\Api\Admin\EventController;
 use App\Http\Controllers\Api\Admin\LocationController;
+use App\Http\Controllers\Api\Admin\OperationController;
 use App\Http\Controllers\Api\Admin\OrgnizationController;
 use App\Http\Controllers\Api\Admin\TaskController;
 use App\Http\Controllers\Api\Admin\UserController;
@@ -130,6 +131,20 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
         Route::get('/admin/shakwa', [UserController::class, 'getShakawy']);
 
         Route::get('/admin/suggest', [UserController::class, 'getSuggests']);
+
+//////////////////////////////////////////////////// OPERATION /////////////////////////////////////////////////////////
+
+        Route::get('/admin/getEventDetails/{eventId}', [OperationController::class, 'getEventsDetails']);
+
+        Route::get('/admin/getTaskDetails/{taskId}', [OperationController::class, 'getTasksDetails']);
+
+        Route::get('/admin/getEventVolunteers/{eventId}', [OperationController::class, 'getEventVolunteers']);
+
+        Route::get('/admin/getTaskVolunteers/{taskId}', [OperationController::class, 'getTaskVolunteers']);
+
+        Route::put('/admin/changeVolunteerStatus/{volunteerId}', [OperationController::class, 'changeEventVolunteerStatus']);
+
+        Route::put('/admin/changeTaskVolunteerStatus/{volunteerId}', [OperationController::class, 'changeTaskVolunteerStatus']);
 
 
 

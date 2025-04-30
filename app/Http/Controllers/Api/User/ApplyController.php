@@ -24,7 +24,7 @@ class ApplyController extends Controller
         $task = Task::find($request->task_id);
         $event = Event::find($request->event_id);
 
-        
+
         if($task){
             if ($task->number_of_voo_needed <= 0) {
                 return response()->json(['message' => 'No more volunteers needed for this task'], 422);
@@ -37,7 +37,7 @@ class ApplyController extends Controller
             // $task->increment('number_of_voo_needed', -1);
         }
         elseif($event){
-            if ($event->number_of_voo_needed <= 0) {
+            if ($event->available_volunteers <= 0) {
                 return response()->json(['message' => 'No more volunteers needed for this event'], 422);
             }
             $event->event_volunteers()->create([

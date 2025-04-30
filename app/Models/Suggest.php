@@ -14,6 +14,7 @@ class Suggest extends Model
         'suggest_description',
         'task_id',
         'event_id',
+        'status',
     ];
 
     protected $hidden = [

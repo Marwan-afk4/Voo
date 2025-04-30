@@ -13,6 +13,11 @@ class TaskRequirment extends Model
         'requirment'
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
     public function task(){
         return $this->belongsTo(Task::class);
     }

@@ -88,4 +88,9 @@ class Event extends Model
     {
         return $this->hasMany(Suggest::class);
     }
+
+    public function shakwas()
+    {
+        return $this->hasMany(Shakwa::class);
+    }
 }
