@@ -112,7 +112,7 @@ class UserController extends Controller
     }
 
     public function getSuggests(){
-        $suggest = Suggest::with(['user:id,name'])->get();
+        $suggest = Suggest::with(['user:id,name','event','task'])->get();
         return response()->json([
             'Suggests' => $suggest,
         ]);

@@ -83,4 +83,9 @@ class Event extends Model
     {
         return $this->belongsTo(User::class,'orgnization_id');
     }
+
+    public function suggests()
+    {
+        return $this->hasMany(Suggest::class);
+    }
 }

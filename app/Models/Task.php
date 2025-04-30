@@ -69,4 +69,9 @@ class Task extends Model
     {
         return $this->hasMany(TaskVolunteer::class);
     }
+
+    public function suggests()
+    {
+        return $this->hasMany(Suggest::class);
+    }
 }
