@@ -18,6 +18,10 @@ class UserPaper extends Model
         'status'
     ];
 
+    public function orgnization(){
+        return $this->belongsTo(User::class, 'orgnization_id');
+    }
+
     public function getFrontLinkAttribute(){
         if(isset($this->attributes['front_identity'])){
             return asset('storage/'.$this->attributes['front_identity']);
