@@ -75,6 +75,12 @@ class Event extends Model
         return $this->hasMany(EventVolunteer::class);
     }
 
+    public function my_event_volunteers()
+    {
+        return $this->hasMany(EventVolunteer::class)
+        ->where('user_id', auth()->user()->id);
+    }
+
     public function vooHours()
     {
         return $this->hasMany(VooHour::class);

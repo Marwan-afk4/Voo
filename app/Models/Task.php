@@ -71,6 +71,12 @@ class Task extends Model
         return $this->hasMany(TaskVolunteer::class);
     }
 
+    public function my_task_volunteers()
+    {
+        return $this->hasMany(TaskVolunteer::class)
+        ->where('user_id', auth()->user()->id);
+    }
+
     public function suggests()
     {
         return $this->hasMany(Suggest::class);

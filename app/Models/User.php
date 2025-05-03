@@ -77,4 +77,14 @@ class User extends Model
     {
         return $this->belongsTo(User::class,'orgnization_id');
     }
+
+    public function events()
+    {
+        return $this->belongsTo(Event::class,'orgnization_id');
+    }
+
+    public function tasks()
+    {
+        return $this->belongsTo(Task::class,'orgnization_id');
+    }
 }
