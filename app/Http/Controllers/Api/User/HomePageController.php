@@ -16,7 +16,9 @@ class HomePageController extends Controller
         $user = $request->user();
         $userOrgnizationId = $user->orgnization_id;
         $Allevents = Event::where('status', 'active')
-        ->whereDoesNotHave('my_event_volunteers')
+            ->whereDoesNotHave('event_volunteers', function($query) use($request){
+                $query->where('user_id', $request->user()->id);
+            })
             ->with([
             'city:id,name,country_id',
             'country:id,name',
@@ -29,7 +31,9 @@ class HomePageController extends Controller
 
         $tasks = Task::where('orgnization_id', $userOrgnizationId)
         ->where('status', 'active')
-        ->whereDoesNotHave('my_task_volunteers')
+        ->whereDoesNotHave('task_volunteers', function($query) use($request){
+            $query->where('user_id', $request->user()->id);
+        })
         ->with([
             'to_zone:id,name,city_id,country_id',
             'from_zone:id,name,city_id,country_id',
