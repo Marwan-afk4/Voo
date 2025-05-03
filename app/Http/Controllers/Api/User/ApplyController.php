@@ -34,6 +34,9 @@ class ApplyController extends Controller
         if ($task->number_of_voo_needed <= 0) {
             return response()->json(['message' => 'No more volunteers needed for this task'], 422);
         }
+        $task->update([
+            'apply' => 1
+        ]);
 
         $task->task_volunteers()->create([
             'user_id' => $user_id,
@@ -54,6 +57,9 @@ class ApplyController extends Controller
             return response()->json(['message' => 'No more volunteers needed for this event'], 422);
         }
 
+        $event->update([
+            'apply' => 1
+        ]);
         $event->event_volunteers()->create([
             'user_id' => $user_id,
             'event_id' => $event->id,

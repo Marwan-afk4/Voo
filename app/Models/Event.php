@@ -25,7 +25,8 @@ class Event extends Model
         'description',
         'image',
         'status',
-        'event_hours'
+        'event_hours',
+        'apply'
     ];
 
     protected $hidden = [

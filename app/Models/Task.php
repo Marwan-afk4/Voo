@@ -21,7 +21,8 @@ class Task extends Model
         'orgnization_id',
         'location',
         'task_hours',
-        'google_map_location'
+        'google_map_location',
+        'apply'
     ];
 
     protected $hidden = [
