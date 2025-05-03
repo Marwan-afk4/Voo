@@ -292,9 +292,9 @@ Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'
 
         Route::get('/orgnization/getTaskSuggest/{taskId}', [OrgnizationOperationController::class, 'getTaskSuggest']);
 
-        Route::get('/orgnization/readEventSuggest/{eventId}', [OrgnizationOperationController::class, 'readEventSuggest']);
+        Route::put('/orgnization/readEventSuggest/{eventId}', [OrgnizationOperationController::class, 'readEventSuggest']);
 
-        Route::get('/orgnization/readTaskSuggest/{taskId}', [OrgnizationOperationController::class, 'readTaskSuggest']);
+        Route::put('/orgnization/readTaskSuggest/{taskId}', [OrgnizationOperationController::class, 'readTaskSuggest']);
 
 ///////
 
