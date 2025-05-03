@@ -63,7 +63,7 @@ class RequestController extends Controller
         if (!$requestData) {
             return response()->json(['message' => 'Request not found'], 404);
         }
-        $requestData->status = 'aattend';
+        $requestData->status = 'attend';
         $requestData->save();
         return response()->json(['message' => 'Request status updated successfully'], 200);
     }
