@@ -87,4 +87,14 @@ class User extends Model
     {
         return $this->belongsTo(Task::class,'orgnization_id');
     }
+
+    public function user_events()
+    {
+        return $this->belongsToMany(Event::class,'event_volunteers');
+    }
+
+    public function user_tasks()
+    {
+        return $this->belongsToMany(Task::class,'task_volunteers');
+    }
 }

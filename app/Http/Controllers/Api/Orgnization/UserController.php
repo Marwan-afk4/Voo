@@ -70,7 +70,7 @@ class UserController extends Controller
     }
 
     public function getUser($id){
-        $user = User::with(['country:name,id', 'city:name,id', 'user_papers','orgnization'])->findOrFail($id);
+        $user = User::with(['country:name,id', 'city:name,id', 'user_papers','orgnization', 'user_events', 'user_tasks'])->findOrFail($id);
         $data =[
             'user' => $user,
         ];
